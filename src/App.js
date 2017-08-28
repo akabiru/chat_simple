@@ -1,15 +1,23 @@
 function createStore(initialState, reducer) {
   let state = initialState;
+  const listeners = [];
+
+  const subscribe = (listener) => {
+    listeners.push(listener);
+  };
 
   const getState = () => (state);
 
   const dispatch = (action) => {
     state = reducer(state, action);
+    // invoke all listeners on state change
+    listeners.forEach(l => l());
   };
 
   return {
     getState,
     dispatch,
+    subscribe,
   };
 }
 
@@ -43,32 +51,30 @@ const initialState = {
 
 const store = createStore(initialState, messageReducer);
 
+// log current state
+const listener = () => {
+  console.log('Current state: ', store.getState());
+};
+
+// subscribe the listener
+store.subscribe(listener);
+
 const addMessageAction1 = {
   type: 'ADD_MESSAGE',
-  message: 'How does it look, Neil?',
+  message: 'How do you read?',
 };
 
 store.dispatch(addMessageAction1);
-const stateV1 = store.getState();
-
+// -> `listener()` is called
 const addMessageAction2 = {
   type: 'ADD_MESSAGE',
-  message: 'Looking good.',
+  message: 'I read you loud and clear, Houston.',
 };
-
 store.dispatch(addMessageAction2);
-const stateV2 = store.getState();
-
+// -> `listener()` is called
 const deleteMessageAction = {
   type: 'DELETE_MESSAGE',
   index: 0,
 };
 
 store.dispatch(deleteMessageAction);
-const stateV3 = store.getState();
-
-
-
-console.log('State v1:', stateV1);
-console.log('State v2:', stateV2);
-console.log('State v3:', stateV3);
