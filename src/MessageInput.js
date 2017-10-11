@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import messageStore from './messageStore';
+import store from './store';
 
 class MessageInput extends Component {
   state = {
@@ -13,7 +13,7 @@ class MessageInput extends Component {
   };
 
   handleSubmit = () => {
-    messageStore.dispatch({
+    store.dispatch({
       type: 'ADD_MESSAGE',
       message: this.state.value,
     });

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import messageStore from './messageStore';
+import store from './store';
 
 class MessageView extends Component {
   handleClick = (index) => {
-    messageStore.dispatch({
+    store.dispatch({
       type: 'DELETE_MESSAGE',
       index: index,
     });
@@ -19,6 +19,7 @@ class MessageView extends Component {
         {message}
       </div>
     ));
+
     return (
       <div className='ui comments'>
         {messages}

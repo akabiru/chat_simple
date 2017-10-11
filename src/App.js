@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import messageStore from './messageStore';
+import store from './store';
 import MessageView from './MessageView';
 import MessageInput from './MessageInput';
 
-
 class App extends Component {
   componentDidMount() {
-    messageStore.subscribe(() => this.forceUpdate());
+    store.subscribe(() => this.forceUpdate());
   }
 
   render() {
-    const messages = messageStore.getState().messages;
+    const messages = store.getState().messages;
 
     return (
       <div className='ui segment'>
